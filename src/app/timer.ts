@@ -17,9 +17,11 @@ const timerSlice = createSlice({
 	reducers: {
 		setConfig(state, action: PayloadAction<CONFIG>) {
 			state.config = action.payload;
+			return state;
 		},
 		setCurrentTotalTime(state, action: PayloadAction<number>) {
 			state.currentTotalTime = action.payload;
+			return state;
 		},
 	},
 });
