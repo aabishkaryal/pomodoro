@@ -2,8 +2,12 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
+import timerReducer from "app/timer";
+
 export const store = configureStore({
-	reducer: {},
+	reducer: {
+		timerState: timerReducer,
+	},
 });
 
 export type AppDispatch = typeof store.dispatch;
