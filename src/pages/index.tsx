@@ -1,9 +1,19 @@
-import { Box } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import { Header } from "components/header";
 import type { NextPage } from "next";
 import React from "react";
 
 const Home: NextPage = () => {
-	return <Box>Hello</Box>;
+	return (
+		<Flex
+			width="100%"
+			minWidth="300px"
+			flexDir="column"
+			alignItems="center"
+		>
+			<Header />
+		</Flex>
+	);
 };
 
 export default Home;
