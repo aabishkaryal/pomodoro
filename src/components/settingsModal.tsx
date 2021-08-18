@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import {
 	Button,
 	ChakraComponent,
@@ -16,18 +18,23 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 
-import { useRef } from "react";
+import {
+	BREAK_LONG_DEFAULT,
+	BREAK_SHORT_DEFAULT,
+	CONFIG,
+	EXTENSION_DEFAULT,
+	WORK_DEFAULT,
+} from "app/constants";
+import { SettingsManager } from "app/settingsManager";
 
 type Props = {
 	isOpen: boolean;
 	onClose: () => void;
 };
 
-export const SettingsModal: ChakraComponent<"div", Props> = ({
-	isOpen,
-	onClose,
-}) => {
+export const SettingsModal: ChakraComponent<"div", Props> = ({ isOpen, onClose }) => {
 	const closeButtonRef = useRef(null);
+
 	return (
 		<Modal
 			isOpen={isOpen}
@@ -41,15 +48,15 @@ export const SettingsModal: ChakraComponent<"div", Props> = ({
 		>
 			<ModalOverlay />
 			<ModalContent marginX={{ base: 4, md: 8 }}>
-				<ModalHeader fontSize={{ base: "lg", lg: "2xl" }}>
-					Settings
-				</ModalHeader>
+				<ModalHeader fontSize={{ base: "lg", lg: "2xl" }}>Settings</ModalHeader>
 				<ModalCloseButton ref={closeButtonRef} />
 				<ModalBody>
 					<Settings />
 				</ModalBody>
 				<ModalFooter>
-					<Button onClick={onClose}> OK</Button>
+					<HStack spacing={4}>
+						<Button onClick={onClose}> OK</Button>
+					</HStack>
 				</ModalFooter>
 			</ModalContent>
 		</Modal>
@@ -63,37 +70,58 @@ function Settings() {
 				Time(minutes):
 			</Heading>
 			<VStack marginY={4} paddingLeft={8}>
-				<HStack
-					alignItems="center"
-					width="100%"
-					justifyContent="space-between"
-				>
+				<HStack alignItems="center" width="100%" justifyContent="space-between">
 					<Text>Work:</Text>
-					<NumberInput min={0} max={60} onChange={(value) => {}} />
+					<NumberInput
+						value={(SettingsManager.get(CONFIG.WORK) || WORK_DEFAULT) / (1000 * 60)}
+						min={0}
+						max={60}
+						onChange={(value) => {
+							SettingsManager.set(CONFIG.WORK, value * (1000 * 60));
+						}}
+					/>
 				</HStack>
-				<HStack
-					alignItems="center"
-					width="100%"
-					justifyContent="space-between"
-				>
+				<HStack alignItems="center" width="100%" justifyContent="space-between">
 					<Text>Extension:</Text>
-					<NumberInput min={0} max={60} onChange={(value) => {}} />
+					<NumberInput
+						value={
+							(SettingsManager.get(CONFIG.EXTENSION) || EXTENSION_DEFAULT) /
+							(1000 * 60)
+						}
+						min={0}
+						max={60}
+						onChange={(value) => {
+							SettingsManager.set(CONFIG.EXTENSION, value * (1000 * 60));
+						}}
+					/>
 				</HStack>
-				<HStack
-					alignItems="center"
-					width="100%"
-					justifyContent="space-between"
-				>
+				<HStack alignItems="center" width="100%" justifyContent="space-between">
 					<Text>Short Break:</Text>
-					<NumberInput min={0} max={60} onChange={(value) => {}} />
+					<NumberInput
+						value={
+							(SettingsManager.get(CONFIG.BREAK_SHORT) || BREAK_SHORT_DEFAULT) /
+							(1000 * 60)
+						}
+						min={0}
+						max={60}
+						onChange={(value) => {
+							SettingsManager.set(CONFIG.BREAK_SHORT, value * (1000 * 60));
+						}}
+					/>
 				</HStack>
-				<HStack
-					alignItems="center"
-					width="100%"
-					justifyContent="space-between"
-				>
+				<HStack alignItems="center" width="100%" justifyContent="space-between">
 					<Text>Long Break:</Text>
-					<NumberInput min={0} max={60} onChange={(value) => {}} />
+					<NumberInput
+						value={
+							(SettingsManager.get(CONFIG.BREAK_LONG) || BREAK_LONG_DEFAULT) /
+							(1000 * 60)
+						}
+						min={0}
+						max={60}
+						onChange={(value) => {
+							SettingsManager.set(CONFIG.BREAK_LONG, value * (1000 * 60));
+						}}
+					/>
 				</HStack>
 			</VStack>
 		</>
@@ -108,14 +136,13 @@ type NumberInputProps = {
 };
 
 function NumberInput({ max, min, onChange, value = 10 }: NumberInputProps) {
-	const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } =
-		useNumberInput({
-			step: 1,
-			min: min,
-			max: max,
-			defaultValue: value,
-			onChange: (_, number) => onChange(number),
-		});
+	const { getInputProps, getIncrementButtonProps, getDecrementButtonProps } = useNumberInput({
+		step: 1,
+		min: min,
+		max: max,
+		defaultValue: value,
+		onChange: (_, number) => onChange(number),
+	});
 	const inc = getIncrementButtonProps();
 	const dec = getDecrementButtonProps();
 	const input = getInputProps();
