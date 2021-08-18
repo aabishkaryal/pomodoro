@@ -73,11 +73,13 @@ function Settings() {
 				<HStack alignItems="center" width="100%" justifyContent="space-between">
 					<Text>Work:</Text>
 					<NumberInput
-						value={(SettingsManager.get(CONFIG.WORK) || WORK_DEFAULT) / (1000 * 60)}
+						value={
+							Number(SettingsManager.get(CONFIG.WORK) || WORK_DEFAULT) / (1000 * 60)
+						}
 						min={0}
 						max={60}
 						onChange={(value) => {
-							SettingsManager.set(CONFIG.WORK, value * (1000 * 60));
+							SettingsManager.set(CONFIG.WORK, (value * 1000 * 60).toString());
 						}}
 					/>
 				</HStack>
@@ -85,13 +87,13 @@ function Settings() {
 					<Text>Extension:</Text>
 					<NumberInput
 						value={
-							(SettingsManager.get(CONFIG.EXTENSION) || EXTENSION_DEFAULT) /
+							Number(SettingsManager.get(CONFIG.EXTENSION) || EXTENSION_DEFAULT) /
 							(1000 * 60)
 						}
 						min={0}
 						max={60}
 						onChange={(value) => {
-							SettingsManager.set(CONFIG.EXTENSION, value * (1000 * 60));
+							SettingsManager.set(CONFIG.EXTENSION, (value * 1000 * 60).toString());
 						}}
 					/>
 				</HStack>
@@ -99,13 +101,13 @@ function Settings() {
 					<Text>Short Break:</Text>
 					<NumberInput
 						value={
-							(SettingsManager.get(CONFIG.BREAK_SHORT) || BREAK_SHORT_DEFAULT) /
+							Number(SettingsManager.get(CONFIG.BREAK_SHORT) || BREAK_SHORT_DEFAULT) /
 							(1000 * 60)
 						}
 						min={0}
 						max={60}
 						onChange={(value) => {
-							SettingsManager.set(CONFIG.BREAK_SHORT, value * (1000 * 60));
+							SettingsManager.set(CONFIG.BREAK_SHORT, (value * 1000 * 60).toString());
 						}}
 					/>
 				</HStack>
@@ -113,13 +115,13 @@ function Settings() {
 					<Text>Long Break:</Text>
 					<NumberInput
 						value={
-							(SettingsManager.get(CONFIG.BREAK_LONG) || BREAK_LONG_DEFAULT) /
+							Number(SettingsManager.get(CONFIG.BREAK_LONG) || BREAK_LONG_DEFAULT) /
 							(1000 * 60)
 						}
 						min={0}
 						max={60}
 						onChange={(value) => {
-							SettingsManager.set(CONFIG.BREAK_LONG, value * (1000 * 60));
+							SettingsManager.set(CONFIG.BREAK_LONG, (value * 1000 * 60).toString());
 						}}
 					/>
 				</HStack>
