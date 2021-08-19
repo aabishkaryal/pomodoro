@@ -10,8 +10,8 @@ import {
 	useDisclosure,
 	useBreakpointValue,
 } from "@chakra-ui/react";
-import { MoonIcon, SettingsIcon, SunIcon } from "@chakra-ui/icons";
-import { FaGithub } from "react-icons/fa";
+import { FaGithub, FaMoon, FaSun } from "react-icons/fa";
+import { GoSettings } from "react-icons/go";
 
 import { ICON_SIZE } from "app/constants";
 import { SettingsModal } from "components/settingsModal";
@@ -37,7 +37,7 @@ export const Header: ChakraComponent<"div", {}> = () => {
 					aria-label="Settings"
 					size={buttonSize}
 					backgroundColor="transparent"
-					icon={<SettingsIcon boxSize={ICON_SIZE} />}
+					icon={<Icon as={GoSettings} boxSize={ICON_SIZE} />}
 					onClick={onOpen}
 				/>
 				<SettingsModal isOpen={isOpen} onClose={onClose} />
@@ -46,8 +46,8 @@ export const Header: ChakraComponent<"div", {}> = () => {
 					size={buttonSize}
 					backgroundColor="transparent"
 					icon={useColorModeValue(
-						<MoonIcon boxSize={ICON_SIZE} />,
-						<SunIcon boxSize={ICON_SIZE} />
+						<Icon as={FaMoon} boxSize={ICON_SIZE} />,
+						<Icon as={FaSun} boxSize={ICON_SIZE} />
 					)}
 					onClick={toggleColorMode}
 				/>
