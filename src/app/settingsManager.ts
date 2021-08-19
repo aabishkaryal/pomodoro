@@ -1,5 +1,6 @@
 import { CONFIG } from "app/constants";
 
+// SettingsManager handles the settings of the application.
 export class SettingsManager {
 	static get(key: string) {
 		return window.localStorage.getItem(key);

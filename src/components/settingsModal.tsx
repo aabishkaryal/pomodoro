@@ -26,6 +26,7 @@ type Props = {
 	onClose: () => void;
 };
 
+// Modal to edit the settings
 export const SettingsModal: ChakraComponent<"div", Props> = ({ isOpen, onClose }) => {
 	const closeButtonRef = useRef(null);
 

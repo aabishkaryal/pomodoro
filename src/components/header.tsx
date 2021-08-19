@@ -16,6 +16,7 @@ import { FaGithub } from "react-icons/fa";
 import { ICON_SIZE } from "app/constants";
 import { SettingsModal } from "components/settingsModal";
 
+// Header of the website
 export const Header: ChakraComponent<"div", {}> = () => {
 	const { toggleColorMode } = useColorMode();
 	const { onClose, onOpen, isOpen } = useDisclosure();
