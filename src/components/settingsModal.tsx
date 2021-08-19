@@ -122,7 +122,7 @@ function NumberInput({ max, min, onChange, value = 10 }: NumberInputProps) {
 			<Button {...inc} variant="ghost">
 				+
 			</Button>
-			<Input {...input} width="75px" />
+			<Input {...input} isReadOnly width="75px" />
 			<Button {...dec} variant="ghost">
 				-
 			</Button>
