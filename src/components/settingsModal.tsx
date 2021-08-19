@@ -18,13 +18,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 
-import {
-	BREAK_LONG_DEFAULT,
-	BREAK_SHORT_DEFAULT,
-	CONFIG,
-	EXTENSION_DEFAULT,
-	WORK_DEFAULT,
-} from "app/constants";
+import { BREAK_DEFAULT, CONFIG, WORK_DEFAULT } from "app/constants";
 import { SettingsManager } from "app/settingsManager";
 
 type Props = {
@@ -84,44 +78,15 @@ function Settings() {
 					/>
 				</HStack>
 				<HStack alignItems="center" width="100%" justifyContent="space-between">
-					<Text>Extension:</Text>
-					<NumberInput
-						value={
-							Number(SettingsManager.get(CONFIG.EXTENSION) || EXTENSION_DEFAULT) /
-							(1000 * 60)
-						}
-						min={1}
-						max={60}
-						onChange={(value) => {
-							SettingsManager.set(CONFIG.EXTENSION, (value * 1000 * 60).toString());
-						}}
-					/>
-				</HStack>
-				<HStack alignItems="center" width="100%" justifyContent="space-between">
 					<Text>Short Break:</Text>
 					<NumberInput
 						value={
-							Number(SettingsManager.get(CONFIG.BREAK_SHORT) || BREAK_SHORT_DEFAULT) /
-							(1000 * 60)
+							Number(SettingsManager.get(CONFIG.BREAK) || BREAK_DEFAULT) / (1000 * 60)
 						}
 						min={1}
 						max={60}
 						onChange={(value) => {
-							SettingsManager.set(CONFIG.BREAK_SHORT, (value * 1000 * 60).toString());
-						}}
-					/>
-				</HStack>
-				<HStack alignItems="center" width="100%" justifyContent="space-between">
-					<Text>Long Break:</Text>
-					<NumberInput
-						value={
-							Number(SettingsManager.get(CONFIG.BREAK_LONG) || BREAK_LONG_DEFAULT) /
-							(1000 * 60)
-						}
-						min={1}
-						max={60}
-						onChange={(value) => {
-							SettingsManager.set(CONFIG.BREAK_LONG, (value * 1000 * 60).toString());
+							SettingsManager.set(CONFIG.BREAK, (value * 1000 * 60).toString());
 						}}
 					/>
 				</HStack>

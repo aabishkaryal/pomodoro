@@ -86,16 +86,10 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 						Work
 					</Button>
 					<Button
-						variant={config == CONFIG.BREAK_SHORT ? "solid" : "ghost"}
-						onClick={changeConfig(CONFIG.BREAK_SHORT)}
+						variant={config == CONFIG.BREAK ? "solid" : "ghost"}
+						onClick={changeConfig(CONFIG.BREAK)}
 					>
-						Short Break
-					</Button>
-					<Button
-						variant={config == CONFIG.BREAK_LONG ? "solid" : "ghost"}
-						onClick={changeConfig(CONFIG.BREAK_LONG)}
-					>
-						Long Break
+						Break
 					</Button>
 				</HStack>
 			</ButtonGroup>
@@ -138,9 +132,9 @@ function CountdownChild({
 			<Button
 				aria-label="Take a break"
 				variant="ghost"
-				onClick={() => dispatch(setConfig(CONFIG.BREAK_SHORT))}
+				onClick={() => dispatch(setConfig(CONFIG.BREAK))}
 			>
-				Take a break
+				{config == CONFIG.WORK ? "Take a break" : "Back to Work"}
 			</Button>
 		);
 	} else {
