@@ -8,7 +8,6 @@ import {
 	CircularProgress,
 	CircularProgressLabel,
 	HStack,
-	Text,
 	ButtonGroup,
 } from "@chakra-ui/react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
@@ -19,7 +18,6 @@ import { SettingsManager } from "app/settingsManager";
 import { CONFIG, CURRENT_CONFIG } from "app/constants";
 import { setConfig, setTotalTime } from "app/timer";
 import { useRef } from "react";
-import { useCallback } from "react";
 
 type Props = {};
 

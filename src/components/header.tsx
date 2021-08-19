@@ -26,7 +26,7 @@ export const Header: ChakraComponent<"div", {}> = () => {
 			width="100%"
 			paddingX={{ base: 4, md: 8 }}
 			paddingY={{ base: 4 }}
-			boxShadow="lg"
+			boxShadow="md"
 		>
 			<Heading as="h1" fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}>
 				Pomodoro
