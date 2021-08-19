@@ -10,7 +10,7 @@ import {
 	HStack,
 	ButtonGroup,
 } from "@chakra-ui/react";
-import Countdown, { CountdownRendererFn } from "react-countdown";
+import Countdown, { CountdownRendererFn, CountdownRenderProps } from "react-countdown";
 
 import { useAppDispatch, useAppSelector } from "app/store";
 import { useEffect } from "react";
@@ -28,15 +28,8 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 	const { config, totalTime } = useAppSelector((state) => state.timerState);
 	const dispatch = useAppDispatch();
 
-	const syncTime = () => {
-		const time = Number(SettingsManager.get(config));
-		if (time) {
-			dispatch(setTotalTime(time));
-		}
-	};
-
 	const changeConfig = (config: CONFIG) => {
-		return async function () {
+		return function () {
 			if (countdownRef.current) countdownRef.current.getApi().stop();
 			SettingsManager.set(CURRENT_CONFIG, config);
 			dispatch(setConfig(config));
@@ -66,51 +59,21 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 		});
 	}, [config, dispatch]);
 
-	const renderer: CountdownRendererFn = ({ api, hours, total, formatted, completed }) => {
+	const renderer: CountdownRendererFn = (props) => {
 		return (
-			<>
-				<CircularProgress
-					size={countdownSize}
-					thickness={4}
-					value={(total / totalTime) * 100}
-				>
-					<CircularProgressLabel fontSize={hours > 0 ? ".17em" : undefined}>
-						{hours > 0 ? formatted.hours + ":" : null}
-						{formatted.minutes}:{formatted.seconds}
-					</CircularProgressLabel>
-				</CircularProgress>
-				{completed ? (
-					<Button
-						aria-label="Take a break"
-						variant="ghost"
-						onClick={() => dispatch(setConfig(CONFIG.BREAK_SHORT))}
-					>
-						Take a break
-					</Button>
-				) : (
-					<HStack spacing={4}>
-						<ButtonGroup variant="ghost">
-							<Button
-								onClick={api.isStarted() || api.isPaused() ? api.stop : api.start}
-							>
-								{api.isStarted() || api.isPaused() ? "Stop" : "Start"}
-							</Button>
-							{api.isStopped() ? null : (
-								<Button onClick={api.isPaused() ? api.start : api.pause}>
-									{api.isPaused() ? "Resume" : "Pause"}
-								</Button>
-							)}
-						</ButtonGroup>
-					</HStack>
-				)}
-			</>
+			<CountdownChild
+				{...props}
+				totalTime={totalTime}
+				countDownSize={countdownSize}
+				config={config}
+			/>
 		);
 	};
 	return (
 		<VStack
 			width={{ base: "90%", md: "75%", ml: "50%" }}
-			boxShadow="md"
-			borderRadius="md"
+			boxShadow="lg"
+			borderRadius="lg"
 			padding={4}
 			marginTop={12}
 		>
@@ -136,15 +99,74 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 					</Button>
 				</HStack>
 			</ButtonGroup>
-			<VStack justifyContent="center" spacing={4}>
-				<Countdown
-					renderer={renderer}
-					date={Date.now() + totalTime}
-					autoStart={false}
-					ref={countdownRef}
-					onStop={syncTime}
-				/>
-			</VStack>
+			<Countdown
+				renderer={renderer}
+				date={Date.now() + totalTime}
+				autoStart={false}
+				ref={countdownRef}
+				onStop={() => {
+					const time = Number(SettingsManager.get(config));
+					if (time) {
+						dispatch(setTotalTime(time));
+					}
+				}}
+			/>
 		</VStack>
 	);
 };
+
+type CountdownChildProps = CountdownRenderProps & {
+	countDownSize?: number;
+	totalTime: number;
+	config: CONFIG;
+};
+
+function CountdownChild({
+	api,
+	completed,
+	formatted,
+	hours,
+	total,
+	countDownSize = 200,
+	totalTime,
+	config,
+}: CountdownChildProps) {
+	const dispatch = useAppDispatch();
+	let buttonControls = <></>;
+	if (completed) {
+		buttonControls = (
+			<Button
+				aria-label="Take a break"
+				variant="ghost"
+				onClick={() => dispatch(setConfig(CONFIG.BREAK_SHORT))}
+			>
+				Take a break
+			</Button>
+		);
+	} else {
+		buttonControls = (
+			<HStack spacing={4}>
+				<Button onClick={api.isStopped() ? api.start : api.stop}>
+					{api.isStopped() ? "Start" : "Stop"}
+				</Button>
+				{!api.isStopped() && (
+					<Button onClick={api.isPaused() ? api.start : api.pause}>
+						{api.isPaused() ? "Resume" : "Pause"}
+					</Button>
+				)}
+			</HStack>
+		);
+	}
+
+	return (
+		<>
+			<CircularProgress size={countDownSize} thickness={4} value={(total / totalTime) * 100}>
+				<CircularProgressLabel fontSize={hours > 0 ? ".17em" : undefined}>
+					{hours > 0 ? formatted.hours + ":" : null}
+					{formatted.minutes}:{formatted.seconds}
+				</CircularProgressLabel>
+			</CircularProgress>
+			{buttonControls}
+		</>
+	);
+}
