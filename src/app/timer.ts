@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CONFIG, WORK_DEFAULT } from "./constants";
+import { CONFIG, DEFAULT, WORK_DEFAULT } from "app/constants";
 
 type TimerState = {
 	config: CONFIG;
@@ -8,7 +8,7 @@ type TimerState = {
 
 const initialState: TimerState = {
 	config: CONFIG.WORK,
-	totalTime: WORK_DEFAULT,
+	totalTime: DEFAULT[CONFIG.WORK],
 };
 
 const timerSlice = createSlice({

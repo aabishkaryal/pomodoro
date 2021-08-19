@@ -10,5 +10,11 @@ export enum CONFIG {
 }
 export const CURRENT_CONFIG = "current-config";
 
-export const WORK_DEFAULT = toMilliseconds({ minutes: 25 });
-export const BREAK_DEFAULT = toMilliseconds({ minutes: 5 });
+const WORK_DEFAULT = toMilliseconds({ minutes: 25 });
+const BREAK_DEFAULT = toMilliseconds({ minutes: 5 });
+
+const DEFAULT: { [key: string]: number } = {};
+DEFAULT[CONFIG.WORK] = WORK_DEFAULT;
+DEFAULT[CONFIG.BREAK] = BREAK_DEFAULT;
+
+export { DEFAULT };

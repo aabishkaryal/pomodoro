@@ -2,7 +2,6 @@ import React from "react";
 
 import {
 	ChakraComponent,
-	useBreakpointValue,
 	VStack,
 	Button,
 	CircularProgress,
@@ -10,19 +9,18 @@ import {
 	HStack,
 	ButtonGroup,
 } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
+
 import Countdown, { CountdownRendererFn, CountdownRenderProps } from "react-countdown";
 
 import { useAppDispatch, useAppSelector } from "app/store";
-import { useEffect } from "react";
 import { SettingsManager } from "app/settingsManager";
-import { CONFIG, CURRENT_CONFIG } from "app/constants";
+import { CONFIG, CURRENT_CONFIG, DEFAULT } from "app/constants";
 import { setConfig, setTotalTime } from "app/timer";
-import { useRef } from "react";
 
 type Props = {};
 
 export const Timer: ChakraComponent<"div", Props> = () => {
-	const countdownSize = useBreakpointValue<number>({ base: 200, sm: 300 });
 	const countdownRef = useRef<Countdown>(null);
 
 	const { config, totalTime } = useAppSelector((state) => state.timerState);
@@ -38,6 +36,17 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 
 	useEffect(() => {
 		async function setup() {
+			(() => {
+				const workTime = SettingsManager.get(CONFIG.WORK);
+				const breakTime = SettingsManager.get(CONFIG.BREAK);
+				if (!workTime) {
+					SettingsManager.set(CONFIG.WORK, DEFAULT[CONFIG.WORK].toString());
+				}
+				if (!breakTime) {
+					SettingsManager.set(CONFIG.BREAK, DEFAULT[CONFIG.BREAK].toString());
+				}
+			})();
+
 			const currentConfig = SettingsManager.get(CURRENT_CONFIG);
 			if (
 				currentConfig &&
@@ -45,10 +54,15 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 				Object.values(CONFIG).includes("work" as CONFIG)
 			) {
 				dispatch(setConfig(currentConfig as CONFIG));
+			} else {
+				SettingsManager.set(CURRENT_CONFIG, config);
 			}
+
 			const time = Number(SettingsManager.get(config));
 			if (time) {
 				dispatch(setTotalTime(time));
+			} else {
+				SettingsManager.set(config, totalTime.toString());
 			}
 		}
 		setup();
@@ -57,17 +71,10 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 				dispatch(setTotalTime(Number(time)));
 			}
 		});
-	}, [config, dispatch]);
+	}, [config, dispatch, totalTime]);
 
 	const renderer: CountdownRendererFn = (props) => {
-		return (
-			<CountdownChild
-				{...props}
-				totalTime={totalTime}
-				countDownSize={countdownSize}
-				config={config}
-			/>
-		);
+		return <CountdownChild {...props} totalTime={totalTime} config={config} />;
 	};
 	return (
 		<VStack
@@ -110,7 +117,6 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 };
 
 type CountdownChildProps = CountdownRenderProps & {
-	countDownSize?: number;
 	totalTime: number;
 	config: CONFIG;
 };
@@ -121,7 +127,6 @@ function CountdownChild({
 	formatted,
 	hours,
 	total,
-	countDownSize = 200,
 	totalTime,
 	config,
 }: CountdownChildProps) {
@@ -132,7 +137,15 @@ function CountdownChild({
 			<Button
 				aria-label="Take a break"
 				variant="ghost"
-				onClick={() => dispatch(setConfig(CONFIG.BREAK))}
+				onClick={() => {
+					if (config == CONFIG.WORK) {
+						SettingsManager.set(CURRENT_CONFIG, CONFIG.BREAK);
+						dispatch(setConfig(CONFIG.BREAK));
+					} else if (config == CONFIG.BREAK) {
+						SettingsManager.set(CURRENT_CONFIG, CONFIG.WORK);
+						dispatch(setConfig(CONFIG.WORK));
+					}
+				}}
 			>
 				{config == CONFIG.WORK ? "Take a break" : "Back to Work"}
 			</Button>
@@ -154,7 +167,7 @@ function CountdownChild({
 
 	return (
 		<>
-			<CircularProgress size={countDownSize} thickness={4} value={(total / totalTime) * 100}>
+			<CircularProgress size={250} thickness={4} value={(total / totalTime) * 100}>
 				<CircularProgressLabel fontSize={hours > 0 ? ".17em" : undefined}>
 					{hours > 0 ? formatted.hours + ":" : null}
 					{formatted.minutes}:{formatted.seconds}
