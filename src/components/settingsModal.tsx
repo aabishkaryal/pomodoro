@@ -78,7 +78,7 @@ function Settings() {
 					/>
 				</HStack>
 				<HStack alignItems="center" width="100%" justifyContent="space-between">
-					<Text>Short Break:</Text>
+					<Text>Break:</Text>
 					<NumberInput
 						value={
 							Number(SettingsManager.get(CONFIG.BREAK) || BREAK_DEFAULT) / (1000 * 60)
