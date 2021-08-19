@@ -10,6 +10,7 @@ export enum CONFIG {
 	BREAK_LONG = "break-long",
 	EXTENSION = "extension",
 }
+export const CURRENT_CONFIG = "current-config";
 
 export const WORK_DEFAULT = toMilliseconds({ minutes: 25 });
 export const BREAK_SHORT_DEFAULT = toMilliseconds({ minutes: 5 });

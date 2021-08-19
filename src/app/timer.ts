@@ -3,12 +3,12 @@ import { CONFIG, WORK_DEFAULT } from "./constants";
 
 type TimerState = {
 	config: CONFIG;
-	currentTotalTime: number;
+	totalTime: number;
 };
 
 const initialState: TimerState = {
 	config: CONFIG.WORK,
-	currentTotalTime: WORK_DEFAULT,
+	totalTime: WORK_DEFAULT,
 };
 
 const timerSlice = createSlice({
@@ -19,12 +19,12 @@ const timerSlice = createSlice({
 			state.config = action.payload;
 			return state;
 		},
-		setCurrentTotalTime(state, action: PayloadAction<number>) {
-			state.currentTotalTime = action.payload;
+		setTotalTime(state, action: PayloadAction<number>) {
+			state.totalTime = action.payload;
 			return state;
 		},
 	},
 });
 
-export const { setConfig, setCurrentTotalTime } = timerSlice.actions;
+export const { setConfig, setTotalTime } = timerSlice.actions;
 export default timerSlice.reducer;

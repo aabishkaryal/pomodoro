@@ -76,7 +76,7 @@ function Settings() {
 						value={
 							Number(SettingsManager.get(CONFIG.WORK) || WORK_DEFAULT) / (1000 * 60)
 						}
-						min={0}
+						min={1}
 						max={60}
 						onChange={(value) => {
 							SettingsManager.set(CONFIG.WORK, (value * 1000 * 60).toString());
@@ -90,7 +90,7 @@ function Settings() {
 							Number(SettingsManager.get(CONFIG.EXTENSION) || EXTENSION_DEFAULT) /
 							(1000 * 60)
 						}
-						min={0}
+						min={1}
 						max={60}
 						onChange={(value) => {
 							SettingsManager.set(CONFIG.EXTENSION, (value * 1000 * 60).toString());
@@ -104,7 +104,7 @@ function Settings() {
 							Number(SettingsManager.get(CONFIG.BREAK_SHORT) || BREAK_SHORT_DEFAULT) /
 							(1000 * 60)
 						}
-						min={0}
+						min={1}
 						max={60}
 						onChange={(value) => {
 							SettingsManager.set(CONFIG.BREAK_SHORT, (value * 1000 * 60).toString());
@@ -118,7 +118,7 @@ function Settings() {
 							Number(SettingsManager.get(CONFIG.BREAK_LONG) || BREAK_LONG_DEFAULT) /
 							(1000 * 60)
 						}
-						min={0}
+						min={1}
 						max={60}
 						onChange={(value) => {
 							SettingsManager.set(CONFIG.BREAK_LONG, (value * 1000 * 60).toString());

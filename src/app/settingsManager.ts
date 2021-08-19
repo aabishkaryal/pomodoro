@@ -1,4 +1,4 @@
-import { CONFIG } from "./constants";
+import { CONFIG } from "app/constants";
 
 export class SettingsManager {
 	static get(key: string) {
