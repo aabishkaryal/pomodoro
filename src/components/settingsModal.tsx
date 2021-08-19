@@ -18,7 +18,7 @@ import {
 	VStack,
 } from "@chakra-ui/react";
 
-import { BREAK_DEFAULT, CONFIG, WORK_DEFAULT } from "app/constants";
+import { CONFIG, DEFAULT } from "app/constants";
 import { SettingsManager } from "app/settingsManager";
 
 type Props = {
@@ -68,7 +68,8 @@ function Settings() {
 					<Text>Work:</Text>
 					<NumberInput
 						value={
-							Number(SettingsManager.get(CONFIG.WORK) || WORK_DEFAULT) / (1000 * 60)
+							Number(SettingsManager.get(CONFIG.WORK) || DEFAULT[CONFIG.WORK]) /
+							(1000 * 60)
 						}
 						min={1}
 						max={60}
@@ -81,7 +82,8 @@ function Settings() {
 					<Text>Break:</Text>
 					<NumberInput
 						value={
-							Number(SettingsManager.get(CONFIG.BREAK) || BREAK_DEFAULT) / (1000 * 60)
+							Number(SettingsManager.get(CONFIG.BREAK) || DEFAULT[CONFIG.BREAK]) /
+							(1000 * 60)
 						}
 						min={1}
 						max={60}
