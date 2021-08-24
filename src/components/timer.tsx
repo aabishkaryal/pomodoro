@@ -40,14 +40,7 @@ export const Timer: ChakraComponent<"div", Props> = () => {
 	useEffect(() => {
 		async function setup() {
 			// Set default config if not set yer
-			const workTime = SettingsManager.get(CONFIG.WORK);
-			const breakTime = SettingsManager.get(CONFIG.BREAK);
-			if (!workTime) {
-				SettingsManager.set(CONFIG.WORK, DEFAULT[CONFIG.WORK].toString());
-			}
-			if (!breakTime) {
-				SettingsManager.set(CONFIG.BREAK, DEFAULT[CONFIG.BREAK].toString());
-			}
+			SettingsManager.default();
 
 			// get config from settings and check if they match with the state
 			// if not present in settings, set it to the default

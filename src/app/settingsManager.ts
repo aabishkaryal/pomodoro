@@ -1,4 +1,4 @@
-import { CONFIG } from "app/constants";
+import { CONFIG, DEFAULT, SHOW_NOTIFICATIONS } from "app/constants";
 
 // SettingsManager handles the settings of the application.
 export class SettingsManager {
@@ -17,5 +17,20 @@ export class SettingsManager {
 		};
 		window.addEventListener(key, fn, false);
 		return () => window.removeEventListener(key, fn, false);
+	}
+
+	static default() {
+		const workTime = SettingsManager.get(CONFIG.WORK);
+		const breakTime = SettingsManager.get(CONFIG.BREAK);
+		const showNotifications = SettingsManager.get(SHOW_NOTIFICATIONS);
+		if (!workTime) {
+			SettingsManager.set(CONFIG.WORK, DEFAULT[CONFIG.WORK]);
+		}
+		if (!breakTime) {
+			SettingsManager.set(CONFIG.BREAK, DEFAULT[CONFIG.BREAK]);
+		}
+		if (!showNotifications) {
+			SettingsManager.set(SHOW_NOTIFICATIONS, DEFAULT[SHOW_NOTIFICATIONS]);
+		}
 	}
 }
