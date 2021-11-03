@@ -13,14 +13,13 @@ import {
 import { FaGithub, FaMoon, FaSun } from "react-icons/fa";
 import { GoSettings } from "react-icons/go";
 
-import { ICON_SIZE } from "app/constants";
 import { SettingsModal } from "components/settingsModal";
 
 // Header of the website
 export const Header: ChakraComponent<"div", {}> = () => {
     const { toggleColorMode } = useColorMode();
     const { onClose, onOpen, isOpen } = useDisclosure();
-    const buttonSize = useBreakpointValue({ base: "md", sm: "lg" });
+
     return (
         <HStack
             justifyContent="space-between"
@@ -32,39 +31,36 @@ export const Header: ChakraComponent<"div", {}> = () => {
             <Heading as="h1" fontSize={{ base: "xl", md: "2xl", lg: "3xl" }}>
                 Pomodoro
             </Heading>
-            <HStack spacing={{ base: 2, md: 6 }}>
+            <HStack spacing={{ base: 1, md: 3 }}>
                 <IconButton
                     aria-label="Settings"
-                    size={buttonSize}
+                    size="md"
                     backgroundColor="transparent"
                     icon={<Icon as={GoSettings} />}
                     onClick={onOpen}
-                    boxSize={ICON_SIZE}
-                    padding={{ base: 2, md: 4 }}
+                    isRound
                 />
                 <SettingsModal isOpen={isOpen} onClose={onClose} />
                 <IconButton
                     aria-label="Switch between dark and light mode"
-                    size={buttonSize}
+                    size="md"
                     backgroundColor="transparent"
                     icon={useColorModeValue(
                         <Icon as={FaMoon} />,
                         <Icon as={FaSun} />
                     )}
                     onClick={toggleColorMode}
-                    boxSize={ICON_SIZE}
-                    padding={{ base: 2, md: 4 }}
+                    isRound
                 />
                 <IconButton
                     aria-label="Link to Github repository."
-                    size={buttonSize}
+                    size="md"
                     backgroundColor="transparent"
                     icon={<Icon as={FaGithub} />}
                     as={Link}
                     href="https://github.com/aabishkaryal/pomodoro"
-                    boxSize={ICON_SIZE}
-                    padding={{ base: 2, md: 4 }}
                     isExternal
+                    isRound
                 />
             </HStack>
         </HStack>
