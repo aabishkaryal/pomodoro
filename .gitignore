@@ -36,6 +36,3 @@ yarn-error.log*
 
 # vs code
 .vscode
-
-# nvm
-.nvmrc
