@@ -19,7 +19,7 @@ This is a webapp that allows you to track your pomodoro sessions. It is a simple
 -   Mobile friendly
 -   Customizable timer
 
-## TODOs:
+## Roadmap:
 
 1. Notifications
 1. Pop-up over whole screen
